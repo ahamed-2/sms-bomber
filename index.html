@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> SMS-BoMBer By - Ahamed Rahim</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-bg: #f8f9fa;
+            --dark-text: #2b2d42;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-text);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .developer-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .developer-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .developer-photo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            padding: 3px;
+        }
+        
+        .developer-name {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        
+        .sms-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn-send {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-send:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-send:active {
+            transform: translateY(0);
+        }
+        
+        .response-box {
+            background: #f8f9ff;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            display: none;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            background: var(--dark-text);
+            color: white;
+            padding: 25px 0;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sms-container {
+                padding: 20px;
+            }
+            
+            .developer-photo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn-send {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            body {
+                padding: 15px;
+            }
+            
+            .developer-card, .sms-container {
+                padding: 20px 15px;
+            }
+            
+            .form-control, .form-select {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        /* Custom Checkbox */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Loading Spinner */
+        .spinner-border {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-sms me-2"></i>এডুকেশনাল SMS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i>হোম</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#developer"><i class="fas fa-user me-1"></i>ডেভেলপার</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://ahamed-rahim.pages.dev/" target="_blank">
+                            <i class="fas fa-globe me-1"></i>ওয়েবসাইট
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 fade-in">
+        <!-- Developer Info Card -->
+        <div class="developer-card text-center" id="developer">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <img src="https://i.ibb.co/2kG29y2q/developer.jpg" alt="Ahamed Rahim" class="developer-photo rounded-circle">
+                </div>
+                <div class="col-md-9 text-md-start text-center">
+                    <h2 class="developer-name">Ahamed Rahim</h2>
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-code me-2"></i>ফুল-স্ট্যাক ওয়েব ডেভেলপার
+                    </p>
+                    <p class="mb-3">
+                        Ahamed Rahim একজন বাংলাদেশী ওয়েব ডেভেলপার যিনি শিক্ষামূলক প্রজেক্ট তৈরিতে আগ্রহী। 
+                        তিনি ফুল-স্ট্যাক ওয়েব ডেভেলপমেন্ট, API ইন্টিগ্রেশন এবং ডাটা স্ট্রাকচারে বিশেষজ্ঞ। 
+                        তার লক্ষ্য শিক্ষার্থীদের জন্য সহজে বোঝার মতো প্রজেক্ট তৈরি করা।
+                    </p>
+                    <a href="https://ahamed-rahim.pages.dev/" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt me-2"></i>ওয়েবসাইট ভিজিট করুন
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMS Form Section -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="sms-container">
+                    <h2 class="form-title text-center mb-4">
+                        <i class="fas fa-paper-plane me-2"></i>শিক্ষামূলক SMS প্রেরণ
+                    </h2>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>দ্রষ্টব্য:</strong> এটি শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে তৈরি করা হয়েছে। 
+                        বাস্তবে ব্যবহারের জন্য প্রয়োজনীয় অনুমতি নিন।
+                    </div>
+                    
+                    <form id="smsForm">
+                        <!-- Phone Number Input -->
+                        <div class="mb-4">
+                            <label for="phoneNumber" class="form-label fw-bold">
+                                <i class="fas fa-phone me-2"></i>মোবাইল নম্বর
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">+88</span>
+                                <input 
+                                    type="tel" 
+                                    class="form-control" 
+                                    id="phoneNumber" 
+                                    placeholder="01XXXXXXXXX" 
+                                    pattern="01[3-9]\d{8}"
+                                    required
+                                >
+                            </div>
+                            <div class="form-text">বাংলাদেশি মোবাইল নম্বর লিখুন (11 ডিজিট)</div>
+                        </div>
+                        
+                        <!-- Message Input -->
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-bold">
+                                <i class="fas fa-envelope me-2"></i>বার্তা
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                id="message" 
+                                rows="4" 
+                                placeholder="আপনার বার্তাটি এখানে লিখুন..." 
+                                maxlength="160"
+                                required
+                            ></textarea>
+                            <div class="d-flex justify-content-between mt-2">
+                                <div class="form-text">সর্বোচ্চ ১৬০ ক্যারেক্টার</div>
+                                <div class="text-muted" id="charCount">0/160</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Amount Selection -->
+                        <div class="mb-4">
+                            <label for="amount" class="form-label fw-bold">
+                                <i class="fas fa-coins me-2"></i>ক্রেডিট পরিমাণ
+                            </label>
+                            <select class="form-select" id="amount" required>
+                                <option value="" selected disabled>পরিমাণ নির্বাচন করুন</option>
+                                <option value="50">৫০ টাকা</option>
+                                <option value="100">১০০ টাকা</option>
+                                <option value="200">২০০ টাকা</option>
+                                <option value="500">৫০০ টাকা</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Terms Checkbox -->
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                আমি এই SMS পাঠানো শিক্ষামূলক উদ্দেশ্যে হচ্ছে বুঝতে পেরেছি এবং 
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">শর্তাবলী</a> 
+                                মেনে নিয়েছি।
+                            </label>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-send" id="sendBtn">
+                            <span id="btnText"><i class="fas fa-paper-plane me-2"></i>SMS পাঠান</span>
+                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                    </form>
+                    
+                    <!-- Response Area -->
+                    <div class="response-box" id="responseBox">
+                        <h5 class="mb-3"><i class="fas fa-reply me-2"></i>API রেসপন্স</h5>
+                        <pre id="responseText" class="mb-0"></pre>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="row mt-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="feature-icon mx-auto">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h5 class="card-title mt-3">নিরাপদ</h5>
+                                <p class="card-text">API কী গোপন রাখা হয় এবং নিরাপদ কানেকশন ব্যবহার করা হয়</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="feature-icon mx-auto">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h5 class="card-title mt-3">দ্রুত</h5>
+                                <p class="card-text">অত্যন্ত দ্রুত SMS ডেলিভারি এবং রিয়েল-টাইম রেসপন্স</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="feature-icon mx-auto">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h5 class="card-title mt-3">শিক্ষামূলক</h5>
+                                <p class="card-text">API ইন্টিগ্রেশন এবং ওয়েব ডেভেলপমেন্ট শেখার জন্য</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-md-start text-center mb-3 mb-md-0">
+                    <h5 class="mb-3">এডুকেশনাল SMS প্রেরক</h5>
+                    <p class="mb-0">শিক্ষার্থীদের জন্য API ইন্টিগ্রেশন শিক্ষার প্রকল্প</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center">
+                    <p class="mb-2">ডেভেলপ করেছেন: <strong>Ahamed Rahim</strong></p>
+                    <p class="mb-0">
+                        <a href="https://ahamed-rahim.pages.dev/" target="_blank" class="text-white text-decoration-none">
+                            <i class="fas fa-external-link-alt me-1"></i>ওয়েবসাইট
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <hr class="my-3 opacity-25">
+            <p class="mb-0">&copy; 2023 Educational SMS Sender. শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে।</p>
+        </div>
+    </footer>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ব্যবহারের শর্তাবলী</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>1. এই সার্ভিসটি শুধুমাত্র শিক্ষামূলক এবং টেস্টিং উদ্দেশ্যে তৈরি করা হয়েছে।</p>
+                    <p>2. বাস্তবে এই API ব্যবহারের জন্য সংশ্লিষ্ট প্রতিষ্ঠান থেকে অনুমতি নিতে হবে।</p>
+                    <p>3. SMS প্রেরণের জন্য শুধুমাত্র ভেরিফাইড এবং অনুমোদিত নম্বর ব্যবহার করতে হবে।</p>
+                    <p>4. API কী গোপন রাখার দায়িত্ব ব্যবহারকারীর।</p>
+                    <p>5. ডেভেলপার কোন অপ্রীতিকর ব্যবহারের জন্য দায়ী নয়।</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বন্ধ করুন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const smsForm = document.getElementById('smsForm');
+            const phoneNumber = document.getElementById('phoneNumber');
+            const message = document.getElementById('message');
+            const amount = document.getElementById('amount');
+            const sendBtn = document.getElementById('sendBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const responseBox = document.getElementById('responseBox');
+            const responseText = document.getElementById('responseText');
+            const charCount = document.getElementById('charCount');
+            
+            // Character counter for message
+            message.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = `${length}/160`;
+                
+                if (length > 160) {
+                    charCount.classList.add('text-danger');
+                } else {
+                    charCount.classList.remove('text-danger');
+                }
+            });
+            
+            // Form submission
+            smsForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Validate phone number
+                const phoneRegex = /^01[3-9]\d{8}$/;
+                if (!phoneRegex.test(phoneNumber.value)) {
+                    showResponse('error', 'অনুগ্রহ করে সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)');
+                    return;
+                }
+                
+                // Validate message
+                if (message.value.trim().length === 0) {
+                    showResponse('error', 'বার্তা লিখুন');
+                    return;
+                }
+                
+                // Validate amount
+                if (!amount.value) {
+                    showResponse('error', 'ক্রেডিট পরিমাণ নির্বাচন করুন');
+                    return;
+                }
+                
+                // Show loading state
+                sendBtn.disabled = true;
+                btnText.innerHTML = 'প্রক্রিয়াকরণ হচ্ছে...';
+                btnSpinner.classList.remove('d-none');
+                
+                // Prepare API URL
+                const apiKey = 'app'; // Educational purpose only
+                const apiUrl = `https://premium.jubairbro.store:81/api/api?key=${apiKey}&num=${phoneNumber.value}&amount=${amount.value}`;
+                
+                // For educational purpose, we'll simulate API call
+                setTimeout(() => {
+                    // Simulate API response
+                    const simulatedResponse = {
+                        success: true,
+                        message: "SMS sent successfully (Educational Simulation)",
+                        data: {
+                            api_url: apiUrl,
+                            to: phoneNumber.value,
+                            amount: amount.value,
+                            message_length: message.value.length,
+                            timestamp: new Date().toISOString(),
+                            note: "This is a simulation. In real implementation, message would be sent via API."
+                        }
+                    };
+                    
+                    showResponse('success', JSON.stringify(simulatedResponse, null, 2));
+                    
+                    // Reset button state
+                    sendBtn.disabled = false;
+                    btnText.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS পাঠান';
+                    btnSpinner.classList.add('d-none');
+                }, 1500);
+                
+                // Note: For real API call, use fetch() as shown below:
+                /*
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    showResponse('success', JSON.stringify(data, null, 2));
+                } catch (error) {
+                    showResponse('error', `API Error: ${error.message}`);
+                } finally {
+                    sendBtn.disabled = false;
+                    btnText.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS পাঠান';
+                    btnSpinner.classList.add('d-none');
+                }
+                */
+            });
+            
+            // Function to show response
+            function showResponse(type, message) {
+                responseText.textContent = message;
+                responseText.className = '';
+                
+                if (type === 'success') {
+                    responseBox.style.borderLeftColor = '#28a745';
+                    responseText.classList.add('text-success');
+                } else {
+                    responseBox.style.borderLeftColor = '#dc3545';
+                    responseText.classList.add('text-danger');
+                }
+                
+                responseBox.style.display = 'block';
+                responseBox.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Format phone number input
+            phoneNumber.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.substring(0, 11);
+                this.value = value;
+            });
+            
+            // Demo data button (for educational purpose)
+            const demoBtn = document.createElement('button');
+            demoBtn.className = 'btn btn-outline-secondary btn-sm mt-3';
+            demoBtn.innerHTML = '<i class="fas fa-magic me-1"></i>ডেমো ডেটা লোড করুন';
+            demoBtn.type = 'button';
+            demoBtn.onclick = function() {
+                phoneNumber.value = '01712345678';
+                message.value = 'এটি একটি শিক্ষামূলক বার্তা। এই SMS API ইন্টিগ্রেশন প্রজেক্টটি শেখার জন্য তৈরি করা হয়েছে।';
+                amount.value = '200';
+                message.dispatchEvent(new Event('input'));
+                
+                showResponse('info', 'ডেমো ডেটা লোড করা হয়েছে। এখন "SMS পাঠান" বাটনে ক্লিক করে পরীক্ষা করুন।');
+            };
+            
+            smsForm.appendChild(demoBtn);
+        });
+    </script>
+</body>
+  </html>
